@@ -67,6 +67,7 @@ export type GitHubRepository = {
   has_wiki: boolean;
   has_pages: boolean;
   has_downloads: boolean;
+  has_discussions: boolean;
   archived: boolean;
   disabled: boolean;
   visibility: string;

@@ -55,11 +55,15 @@ export function useGitHubRepositories(): UseGitHubRepositoriesReturn {
       } else {
         setRepositories((prev) => [...prev, ...data.items]);
       }
+
+      return true;
     } catch (err) {
       const errorMessage = (err as Error).message;
       setError(errorMessage);
       errorTimestampRef.current = Date.now();
       alert(errorMessage);
+
+      return false;
     } finally {
       setLoading(false);
       setLoadingMore(false);
@@ -88,8 +92,11 @@ export function useGitHubRepositories(): UseGitHubRepositoriesReturn {
 
     const nextPage = currentPage + 1;
     setLoadingMore(true);
-    await fetchRepositories(nextPage);
-    setCurrentPage(nextPage);
+    const success = await fetchRepositories(nextPage);
+
+    if (success) {
+      setCurrentPage(nextPage);
+    }
   }, [
     currentPage,
     error,
